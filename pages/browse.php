@@ -6,6 +6,7 @@ require_once __DIR__ . '/../includes/auth_check.php';
 require_once __DIR__ . '/../includes/functions.php';
 
 $page_title = $t['browse_title'];
+$needs_map  = true;
 $pdo = getPDO();
 
 $category = trim($_GET['category'] ?? '');
@@ -85,8 +86,10 @@ include __DIR__ . '/../includes/header.php';
         </div>
         <div style="flex:1;min-width:140px;">
             <label class="form-label"><?= $t['filter_city'] ?></label>
-            <input type="text" name="city" class="form-control" value="<?= htmlspecialchars($city) ?>"
-                   placeholder="Tel Aviv, Haifa...">
+            <input type="text" id="browse-city" name="city" class="form-control"
+                   value="<?= htmlspecialchars($city) ?>"
+                   placeholder="Tel Aviv, Haifa..."
+                   autocomplete="off">
         </div>
         <div style="flex:1;min-width:140px;">
             <label class="form-label"><?= $t['filter_sort'] ?></label>
@@ -179,3 +182,10 @@ include __DIR__ . '/../includes/header.php';
 </div>
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>
+
+<script>
+// City autocomplete for browse filter (text-only, no lat/lng needed)
+if (typeof SmartCartMaps !== 'undefined') {
+    SmartCartMaps.initCityAutocomplete('browse-city', null, null);
+}
+</script>
