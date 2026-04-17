@@ -131,7 +131,7 @@ SmartCartMaps.initCityAutocomplete = function(inputId, latInputId, lngInputId) {
     function fetchSuggestions(q) {
         if (q === lastQuery) return;
         lastQuery = q;
-        fetch(PHOTON_URL + '?q=' + encodeURIComponent(q) + '&limit=6&lang=he&' + ISRAEL_BBOX)
+        fetch(PHOTON_URL + '?q=' + encodeURIComponent(q) + '&limit=6&lang=en&' + ISRAEL_BBOX)
             .then(function(r) { return r.json(); })
             .then(function(data) { renderDropdown(data.features || []); })
             .catch(function() { hideDropdown(); });
