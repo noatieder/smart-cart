@@ -1,5 +1,4 @@
-# Config with real credentials — never commit
-config/config.php
+# Config (security not required)
 
 # macOS
 .DS_Store
