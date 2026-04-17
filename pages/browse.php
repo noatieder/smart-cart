@@ -31,11 +31,13 @@ if ($city) {
     $params[] = "%$city%";
 }
 
-$order = match($sort) {
-    'discount'    => 'disc DESC',
-    'ending_soon' => '(SELECT MIN(gp2.deadline) FROM group_purchases gp2 WHERE gp2.product_id = p.id AND gp2.status = \'open\') ASC',
-    default       => 'p.created_at DESC',
-};
+if ($sort === 'discount') {
+    $order = 'disc DESC';
+} elseif ($sort === 'ending_soon') {
+    $order = '(SELECT MIN(gp2.deadline) FROM group_purchases gp2 WHERE gp2.product_id = p.id AND gp2.status = \'open\') ASC';
+} else {
+    $order = 'p.created_at DESC';
+}
 
 $where_sql = implode(' AND ', $where);
 $sql = "
