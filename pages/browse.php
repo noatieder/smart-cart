@@ -43,7 +43,7 @@ if ($sort === 'discount') {
 $where_sql = implode(' AND ', $where);
 $sql = "
     SELECT p.*,
-           b.business_name,
+           b.business_name, b.city AS biz_city,
            ROUND((p.price_ils - p.group_price_ils) / p.price_ils * 100) AS disc,
            (SELECT COUNT(*) FROM group_purchases gp WHERE gp.product_id = p.id AND gp.status = 'open') AS active_groups
     FROM products p
@@ -156,6 +156,13 @@ include __DIR__ . '/../includes/header.php';
                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
                         Min <?= $p['min_participants'] ?>
                     </span>
+                    <?php $display_city = $p['city'] ?? $p['biz_city'] ?? ''; ?>
+                    <?php if ($display_city): ?>
+                    <span style="display:flex;align-items:center;gap:3px;">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        <?= htmlspecialchars($display_city) ?>
+                    </span>
+                    <?php endif; ?>
                     <?php if ($p['active_groups'] > 0): ?>
                     <span style="color:var(--green);font-weight:600;">✓ <?= $p['active_groups'] ?> active</span>
                     <?php else: ?>
